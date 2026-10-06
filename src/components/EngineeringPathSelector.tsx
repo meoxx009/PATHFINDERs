@@ -339,7 +339,7 @@ export const EngineeringPathSelector: React.FC<EngineeringPathSelectorProps> = (
                       </div>
 
                       <div className="text-[10px] font-mono text-[#FAF3E1]/70">
-                        Min: <strong className="text-[#FF6D1F]">Level {req.minimumLevel}</strong>
+                        Min: <strong className="text-[#FF6D1F]">Level {req.requiredLevel}</strong>
                       </div>
                     </div>
 
@@ -360,14 +360,14 @@ export const EngineeringPathSelector: React.FC<EngineeringPathSelectorProps> = (
           </div>
 
           {/* Evidence Examples Footer */}
-          {currentRoleObj.evidenceExamples && currentRoleObj.evidenceExamples.length > 0 && (
+          {currentRoleObj.requiredSkills.some(s => s.evidenceExamples?.length > 0) && (
             <div className="mt-5 pt-4 border-t border-[rgba(250,243,225,0.08)] text-xs font-sans text-[#FAF3E1]/70">
               <div className="text-[11px] font-mono uppercase text-[#FF6D1F] font-bold mb-2 flex items-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#FF6D1F]" />
                 <span>Verifiable Resume Evidence Examples:</span>
               </div>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-[11px]">
-                {currentRoleObj.evidenceExamples.map((ex, i) => (
+                {currentRoleObj.requiredSkills.flatMap(s => s.evidenceExamples || []).slice(0, 4).map((ex: string, i: number) => (
                   <li key={i} className="flex items-start gap-2 text-[#FAF3E1]/80">
                     <span className="text-[#FF6D1F]">•</span>
                     <span>{ex}</span>

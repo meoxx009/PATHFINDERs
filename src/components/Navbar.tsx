@@ -34,7 +34,7 @@ export const Navbar: React.FC = () => {
 
   const navLinks: { id: AppStep; label: string }[] = [
     { id: 'dashboard', label: 'Dashboard' },
-    { id: 'setup', label: 'Explore Roles' },
+    { id: 'roles', label: 'Explore Roles' },
     { id: 'path', label: 'My Roadmap' },
     { id: 'assessment', label: 'Skill Assessment' },
     { id: 'interview', label: 'Interview Coach' },
@@ -93,7 +93,10 @@ export const Navbar: React.FC = () => {
         {/* Center: Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-1.5 bg-[#101416]/80 border border-[rgba(250,243,225,0.1)] rounded-full px-4 py-1.5 shadow-inner">
           {navLinks.map(link => {
-            const isActive = currentStep === link.id || (link.id === 'gap' && currentStep === 'assessment');
+            const isActive =
+              currentStep === link.id ||
+              (link.id === 'roles' && (currentStep === 'roles' || currentStep === 'role-detail' || currentStep === 'setup')) ||
+              (link.id === 'assessment' && (currentStep === 'assessment' || currentStep === 'technical-assessment' || currentStep === 'behavioral-assessment'));
             return (
               <button
                 key={link.id}

@@ -18,6 +18,10 @@ import { UserProfileView } from './components/UserProfileView';
 import { FirstVisitAuthModal } from './components/FirstVisitAuthModal';
 import { AuthModal } from './components/AuthModal';
 import { Footer } from './components/Footer';
+import { ExploreRolesView } from './components/ExploreRolesView';
+import { RoleDetailView } from './components/RoleDetailView';
+import { TechnicalAssessmentView } from './components/TechnicalAssessmentView';
+import { BehavioralAssessmentView } from './components/BehavioralAssessmentView';
 
 const MainContent: React.FC = () => {
   const { currentStep } = useShift();
@@ -28,6 +32,10 @@ const MainContent: React.FC = () => {
       {currentStep === 'signin' && <AuthSignIn />}
       {currentStep === 'signup' && <AuthSignUp />}
       {currentStep === 'dashboard' && <DashboardView />}
+      {currentStep === 'roles' && <ExploreRolesView />}
+      {currentStep === 'role-detail' && <RoleDetailView />}
+      {currentStep === 'technical-assessment' && <TechnicalAssessmentView />}
+      {currentStep === 'behavioral-assessment' && <BehavioralAssessmentView />}
       {currentStep === 'setup' && <CareerSetupForm />}
       {currentStep === 'assessment' && <SkillSelfAssessmentView />}
       {currentStep === 'analysis' && <EvidenceAnalysisView />}

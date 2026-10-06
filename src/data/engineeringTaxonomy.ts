@@ -867,3 +867,5 @@ export function validateTaxonomy(): { valid: boolean; errors: string[] } {
     errors,
   };
 }
+
+export const ENGINEERING_BRANCHES = ENGINEERING_TAXONOMY;

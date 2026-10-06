@@ -45,7 +45,7 @@ for (const [roleId, role] of Object.entries(ROLES_CATALOG)) {
       return {
         skill: req.skillName,
         category,
-        importance: req.importance,
+        importance: (req.importance === 'low' ? 'medium' : req.importance) as 'critical' | 'high' | 'medium',
         benchmarkDescription: req.benchmarkDescription,
       };
     }),

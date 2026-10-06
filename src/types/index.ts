@@ -302,3 +302,216 @@ export interface ProductMetrics {
   adaptiveUpdatesCount: number;
   completedTasksCount: number;
 }
+
+// ==========================================
+// MASTER PROMPT — ROLE EXPLORER DATA MODEL
+// ==========================================
+
+export type RoleSkillCategory =
+  | 'foundations'
+  | 'core_technical'
+  | 'tools'
+  | 'domain_skills'
+  | 'testing_validation'
+  | 'communication'
+  | 'project_execution';
+
+export interface RoleSkillRequirement {
+  skillId: string;
+  skillName: string;
+  category: RoleSkillCategory | string;
+  requiredLevel: 0 | 1 | 2 | 3 | 4 | 5;
+  importance: 'critical' | 'high' | 'medium' | 'low';
+  benchmarkDescription: string;
+  evidenceExamples: string[];
+  prerequisites: string[];
+  suggestedPractice?: string;
+}
+
+export type EngineeringDomain =
+  | 'software_it'
+  | 'ai_data'
+  | 'electronics_embedded'
+  | 'mechanical_manufacturing'
+  | 'civil_infra'
+  | 'chemical_bio_materials'
+  | 'interdisciplinary';
+
+export interface CareerRole {
+  id: string;
+  title: string;
+  slug: string;
+  domain: EngineeringDomain;
+  summary: string;
+  description: string;
+  engineeringFamilies: string[];
+  streams: string[];
+  specializations: string[];
+  industries: string[];
+  workModes: string[];
+  interestTags: string[];
+  experienceLevels: string[];
+  beginnerFriendly: boolean;
+  estimatedWeeks: {
+    beginner: number;
+    intermediate: number;
+    advanced: number;
+  };
+  requiredSkills: RoleSkillRequirement[];
+  preferredSkills?: RoleSkillRequirement[];
+  prerequisiteSkills: string[];
+  commonProjects: string[];
+  commonResponsibilities: string[];
+  tools: string[];
+  interviewTopics: string[];
+  adjacentRoles?: string[];
+  entryLevelExpectations?: string[];
+  roadmapTemplateId?: string;
+  assessmentProfileId?: string;
+}
+
+// ==========================================
+// MASTER PROMPT — SCHEDULING & ROADMAP MODEL
+// ==========================================
+
+export type ScheduleBlockType =
+  | 'learn'
+  | 'practice'
+  | 'project'
+  | 'assessment'
+  | 'interview'
+  | 'review'
+  | 'break';
+
+export interface ScheduleBlock {
+  id: string;
+  date: string; // YYYY-MM-DD
+  dayLabel: string; // e.g., 'Monday'
+  startTime: string; // '07:00'
+  endTime: string; // '07:45'
+  durationMinutes: number;
+  type: ScheduleBlockType;
+  taskId?: string;
+  title: string;
+  skillId?: string;
+  completed: boolean;
+  locked: boolean;
+  notes?: string;
+}
+
+export interface RoadmapPreferences {
+  currentSkillLevel: 'beginner' | 'intermediate' | 'advanced';
+  targetLevel: 'job_ready' | 'internship_ready' | 'advanced';
+  currentBranch?: string;
+  targetRoleId: string;
+  goalType: 'internship' | 'placement' | 'full_time' | 'career_switch' | 'project_readiness';
+  hoursPerWeek: number;
+  durationWeeks: number;
+  durationDays: number;
+  daysPerWeek: number;
+  selectedDays: string[]; // e.g. ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+  maxDailyStudyMinutes: number;
+  preferredSessionMinutes: number;
+  breakDurationMinutes: number;
+  startDate: string;
+  timezone: string;
+  learningStyle: 'hands_on' | 'reading' | 'video_guided' | 'problem_solving' | 'hybrid';
+  intensity: 'balanced' | 'accelerated' | 'deep_practice';
+  priorityMode: 'role_first' | 'skill_gap_first' | 'balanced';
+  prioritySkills?: string[];
+  skippedSkills?: string[];
+}
+
+export interface WeeklyMilestone {
+  weekNumber: number;
+  milestoneTitle: string;
+  skillsCovered: string[];
+  totalPlannedHours: number;
+  plannedHoursByDay: Record<string, number>;
+  projectDeliverable: string;
+  assessmentOrReview: string;
+  expectedEvidence: string;
+  isOverloaded?: boolean;
+}
+
+// ==========================================
+// MASTER PROMPT — TECHNICAL ASSESSMENT MODEL
+// ==========================================
+
+export type AssessmentQuestionType =
+  | 'multiple_choice'
+  | 'multiple_select'
+  | 'short_answer'
+  | 'scenario_analysis'
+  | 'debugging'
+  | 'design_decision'
+  | 'practical_reasoning';
+
+export interface TechnicalAssessmentQuestion {
+  id: string;
+  roleId: string;
+  skillId: string;
+  skillName: string;
+  category: string;
+  type: AssessmentQuestionType;
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  scenarioText?: string;
+  codeSnippet?: string;
+  question: string;
+  options: string[];
+  correctAnswers: number[]; // indices of correct options
+  explanation: string;
+  conceptTakeaway: string;
+}
+
+export interface TechnicalAssessmentResult {
+  roleId: string;
+  roleTitle: string;
+  scorePercentage: number;
+  totalQuestions: number;
+  correctCount: number;
+  estimatedLevel: number; // 0-5
+  confidence: 'High confidence' | 'Medium confidence' | 'Needs validation';
+  weakTopics: string[];
+  strongTopics: string[];
+  recommendedNextTask: string;
+  answers: Array<{
+    questionId: string;
+    selectedOptions: number[];
+    isCorrect: boolean;
+  }>;
+  completedAt: string;
+}
+
+// ==========================================
+// MASTER PROMPT — BEHAVIORAL ASSESSMENT MODEL
+// ==========================================
+
+export interface BehavioralOption {
+  id: string;
+  text: string;
+  competency: string; // e.g. 'ownership', 'communication', 'trade_off_reasoning'
+  behaviorPattern: 'Strong evidence' | 'Consistent behavior' | 'Developing behavior' | 'Needs more examples';
+  tradeoffExplanation: string;
+}
+
+export interface BehavioralScenario {
+  id: string;
+  title: string;
+  engineeringContext: string;
+  scenario: string;
+  competencyEvaluated: string;
+  options: BehavioralOption[];
+}
+
+export interface BehavioralResult {
+  overallPattern: 'Strong evidence' | 'Consistent behavior' | 'Developing behavior' | 'Needs more examples';
+  competencyBreakdown: Record<string, {
+    pattern: string;
+    explanation: string;
+    developmentAction: string;
+  }>;
+  recommendedDevelopmentActions: string[];
+  completedAt: string;
+}
+

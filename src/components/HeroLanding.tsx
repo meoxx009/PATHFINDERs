@@ -60,7 +60,7 @@ export const HeroLanding: React.FC = () => {
           </button>
 
           <button
-            onClick={() => setCurrentStep('setup')}
+            onClick={() => setCurrentStep('roles')}
             className="w-full sm:w-auto px-8 py-4 rounded-[22px] bg-[#101416] hover:bg-[#181d20] text-[#FAF3E1] border border-[rgba(250,243,225,0.18)] font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 cursor-pointer font-display"
           >
             <span>EXPLORE ENGINEERING ROLES</span>

@@ -1,14 +1,22 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type {
   AdaptiveEvent,
+  CareerRole,
   ExtractedResume,
   GapAnalysisResult,
   InterviewEvaluation,
   InterviewQuestion,
   LearningTask,
   ProductMetrics,
+  RoadmapPreferences,
+  ScheduleBlock,
+  WeeklyMilestone,
+  TechnicalAssessmentResult,
+  BehavioralResult,
   UserCareerProfile,
 } from '../types';
+import { getRoleById } from '../data/roles';
+import { generateDeterministicSchedule, DEFAULT_ROADMAP_PREFERENCES } from '../services/scheduler';
 import { DEMO_PRESETS } from '../data/demoProfiles';
 import { analyzeResume as localAnalyzeResume } from '../services/analyzer';
 import { generateLearningPath as localGenerateLearningPath } from '../services/pathGenerator';
@@ -31,11 +39,16 @@ export type AppStep =
   | 'signin'
   | 'signup'
   | 'dashboard'
+  | 'roles'
+  | 'role-detail'
   | 'setup'
   | 'assessment'
+  | 'technical-assessment'
+  | 'behavioral-assessment'
   | 'analysis'
   | 'gap'
   | 'path'
+  | 'schedule-customizer'
   | 'interview'
   | 'feedback'
   | 'settings'
@@ -99,6 +112,25 @@ interface ShiftContextType {
   unhideSkill: (skillName: string) => void;
   recalculatePath: () => void;
   changeTargetRole: (roleId: string, roleTitle: string) => void;
+
+  // Role exploration & bookmarking
+  selectedRole: CareerRole | null;
+  setSelectedRole: (role: CareerRole | null) => void;
+  bookmarkedRoleIds: string[];
+  toggleBookmarkRole: (roleId: string) => void;
+
+  // Custom scheduling & capacity engine
+  roadmapPreferences: RoadmapPreferences;
+  setRoadmapPreferences: React.Dispatch<React.SetStateAction<RoadmapPreferences>>;
+  scheduleBlocks: ScheduleBlock[];
+  weeklyMilestones: WeeklyMilestone[];
+  recalculateSchedule: (prefs?: RoadmapPreferences) => void;
+
+  // Technical & Behavioral Assessments
+  technicalAssessmentResult: TechnicalAssessmentResult | null;
+  setTechnicalAssessmentResult: (result: TechnicalAssessmentResult | null) => void;
+  behavioralAssessmentResult: BehavioralResult | null;
+  setBehavioralAssessmentResult: (result: BehavioralResult | null) => void;
 }
 
 const STORAGE_KEY = 'shift_workspace_state_v1';
@@ -156,6 +188,45 @@ export const ShiftProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [disputedSkills, setDisputedSkills] = useState<string[]>([]);
   const [hiddenSkills, setHiddenSkills] = useState<string[]>([]);
   const [customSkills, setCustomSkills] = useState<SkillJudgementResult[]>([]);
+
+  // Role exploration & bookmarking
+  const [selectedRole, setSelectedRole] = useState<CareerRole | null>(() => getRoleById(defaultProfile.targetRole));
+  const [bookmarkedRoleIds, setBookmarkedRoleIds] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('skillforge_bookmarked_roles');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  // Scheduling & Assessments
+  const [roadmapPreferences, setRoadmapPreferences] = useState<RoadmapPreferences>(DEFAULT_ROADMAP_PREFERENCES);
+  const [scheduleBlocks, setScheduleBlocks] = useState<ScheduleBlock[]>([]);
+  const [weeklyMilestones, setWeeklyMilestones] = useState<WeeklyMilestone[]>([]);
+  const [technicalAssessmentResult, setTechnicalAssessmentResult] = useState<TechnicalAssessmentResult | null>(null);
+  const [behavioralAssessmentResult, setBehavioralAssessmentResult] = useState<BehavioralResult | null>(null);
+
+  const toggleBookmarkRole = (roleId: string) => {
+    setBookmarkedRoleIds(prev => {
+      const next = prev.includes(roleId) ? prev.filter(id => id !== roleId) : [...prev, roleId];
+      try {
+        localStorage.setItem('skillforge_bookmarked_roles', JSON.stringify(next));
+      } catch (e) {
+        console.warn(e);
+      }
+      return next;
+    });
+  };
+
+  const recalculateSchedule = (overridePrefs?: RoadmapPreferences) => {
+    const currentPrefs = overridePrefs || roadmapPreferences;
+    if (learningTasks.length > 0) {
+      const { blocks, milestones } = generateDeterministicSchedule(learningTasks, currentPrefs);
+      setScheduleBlocks(blocks);
+      setWeeklyMilestones(milestones);
+    }
+  };
 
   const openAuthModal = (mode: 'signin' | 'signup' = 'signin') => {
     setAuthModalMode(mode);
@@ -833,12 +904,23 @@ export const ShiftProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     runAnalysis(profile);
   };
 
+  useEffect(() => {
+    if (learningTasks.length > 0) {
+      const { blocks, milestones } = generateDeterministicSchedule(learningTasks, roadmapPreferences);
+      setScheduleBlocks(blocks);
+      setWeeklyMilestones(milestones);
+    }
+  }, [learningTasks, roadmapPreferences]);
+
   const changeTargetRole = (roleId: string, roleTitle: string) => {
     const nextProfile = {
       ...profile,
       targetRole: roleId,
       targetRoleTitle: roleTitle,
     };
+    const roleObj = getRoleById(roleId);
+    setSelectedRole(roleObj);
+    setRoadmapPreferences(prev => ({ ...prev, targetRoleId: roleId }));
     setProfile(nextProfile);
     saveUserProfile(nextProfile);
     runAnalysis(nextProfile);
@@ -861,6 +943,8 @@ export const ShiftProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setDisputedSkills([]);
     setHiddenSkills([]);
     setCustomSkills([]);
+    setTechnicalAssessmentResult(null);
+    setBehavioralAssessmentResult(null);
     setCurrentStep('landing');
   };
 
@@ -917,6 +1001,19 @@ export const ShiftProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         unhideSkill,
         recalculatePath,
         changeTargetRole,
+        selectedRole,
+        setSelectedRole,
+        bookmarkedRoleIds,
+        toggleBookmarkRole,
+        roadmapPreferences,
+        setRoadmapPreferences,
+        scheduleBlocks,
+        weeklyMilestones,
+        recalculateSchedule,
+        technicalAssessmentResult,
+        setTechnicalAssessmentResult,
+        behavioralAssessmentResult,
+        setBehavioralAssessmentResult,
       }}
     >
       {children}

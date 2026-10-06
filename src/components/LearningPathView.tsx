@@ -13,8 +13,12 @@ import {
   ChevronDown, 
   ChevronUp,
   Download,
-  ExternalLink
+  ExternalLink,
+  Sliders,
+  CalendarDays,
+  Award
 } from 'lucide-react';
+import { RoadmapCustomizerModal } from './RoadmapCustomizerModal';
 
 export const LearningPathView: React.FC = () => {
   const { 
@@ -24,10 +28,14 @@ export const LearningPathView: React.FC = () => {
     setCurrentStep, 
     latestAdaptiveEvent,
     clearAdaptiveBanner,
-    loadDemoScenario 
+    loadDemoScenario,
+    scheduleBlocks,
+    weeklyMilestones
   } = useShift();
 
   const [expandedTaskId, setExpandedTaskId] = useState<string | null>(learningTasks[0]?.id || null);
+  const [activeTab, setActiveTab] = useState<'tasks' | 'schedule' | 'milestones'>('tasks');
+  const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
 
   const totalBudgetHours = Math.round(profile.weeklyHours * (profile.durationDays / 7));
   const allocatedHours = Math.round(learningTasks.reduce((acc, t) => acc + t.estimatedHours, 0) * 10) / 10;
@@ -138,6 +146,15 @@ ${t.adaptedFromInterview ? `- **Adapted By Interview Performance:** ${t.adaptati
         <div className="flex items-center gap-3 self-start sm:self-center">
           {/* P1: Download Sprint Plan */}
           <button
+            onClick={() => setIsCustomizerOpen(true)}
+            title="Configure study days, hours, and intensity"
+            className="px-5 py-3.5 rounded-[22px] bg-[#101416] hover:bg-[#1a2024] text-[#FAF3E1] border border-[rgba(250,243,225,0.2)] font-bold text-xs uppercase tracking-wider transition flex items-center gap-2 cursor-pointer font-display"
+          >
+            <Sliders className="w-4 h-4 text-[#FF6D1F]" />
+            <span>Customize Schedule</span>
+          </button>
+
+          <button
             onClick={handleExportMarkdown}
             title="Download formatted Markdown sprint document"
             className="px-5 py-3.5 rounded-[22px] bg-[#101416] hover:bg-[#1a2024] text-[#FAF3E1] border border-[rgba(250,243,225,0.2)] font-bold text-xs uppercase tracking-wider transition flex items-center gap-2 cursor-pointer font-display"
@@ -241,7 +258,47 @@ ${t.adaptedFromInterview ? `- **Adapted By Interview Performance:** ${t.adaptati
         </div>
       </div>
 
+      {/* View Mode Tabs */}
+      <div className="flex flex-wrap items-center gap-2 mb-6 border-b border-[rgba(250,243,225,0.12)] pb-4">
+        <button
+          onClick={() => setActiveTab('tasks')}
+          className={`px-4 py-2.5 rounded-xl text-xs font-bold font-display uppercase tracking-wider transition flex items-center gap-2 ${
+            activeTab === 'tasks'
+              ? 'bg-[#FF6D1F] text-[#222222] shadow-md shadow-[#FF6D1F]/20'
+              : 'bg-[#101416] text-[#96928A] hover:text-[#FAF3E1] border border-[rgba(250,243,225,0.1)]'
+          }`}
+        >
+          <Target className="w-3.5 h-3.5" />
+          <span>Curriculum Tasks ({learningTasks.length})</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('schedule')}
+          className={`px-4 py-2.5 rounded-xl text-xs font-bold font-display uppercase tracking-wider transition flex items-center gap-2 ${
+            activeTab === 'schedule'
+              ? 'bg-[#FF6D1F] text-[#222222] shadow-md shadow-[#FF6D1F]/20'
+              : 'bg-[#101416] text-[#96928A] hover:text-[#FAF3E1] border border-[rgba(250,243,225,0.1)]'
+          }`}
+        >
+          <CalendarDays className="w-3.5 h-3.5" />
+          <span>Hourly Study Timeline ({scheduleBlocks.length} Blocks)</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('milestones')}
+          className={`px-4 py-2.5 rounded-xl text-xs font-bold font-display uppercase tracking-wider transition flex items-center gap-2 ${
+            activeTab === 'milestones'
+              ? 'bg-[#FF6D1F] text-[#222222] shadow-md shadow-[#FF6D1F]/20'
+              : 'bg-[#101416] text-[#96928A] hover:text-[#FAF3E1] border border-[rgba(250,243,225,0.1)]'
+          }`}
+        >
+          <Award className="w-3.5 h-3.5" />
+          <span>Weekly Sprint Milestones ({weeklyMilestones.length})</span>
+        </button>
+      </div>
+
       {/* Task Cards */}
+      {activeTab === 'tasks' && (
       <div className="space-y-4 mb-12">
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-display text-xl font-bold uppercase text-[#FAF3E1] flex items-center gap-2">
@@ -439,6 +496,137 @@ ${t.adaptedFromInterview ? `- **Adapted By Interview Performance:** ${t.adaptati
           );
         })}
       </div>
+      )}
+
+      {/* Tab 2: Hourly Study Schedule */}
+      {activeTab === 'schedule' && (
+        <div className="space-y-6 mb-12 animate-in fade-in duration-200">
+          <div className="flex items-center justify-between">
+            <h2 className="font-display text-xl font-bold uppercase text-[#FAF3E1] flex items-center gap-2">
+              <CalendarDays className="w-5 h-5 text-[#FF6D1F]" />
+              Deterministic Hourly Schedule
+            </h2>
+            <button
+              onClick={() => setIsCustomizerOpen(true)}
+              className="text-xs text-[#FF6D1F] hover:underline font-bold font-display uppercase tracking-wider"
+            >
+              Adjust schedule capacity & days →
+            </button>
+          </div>
+
+          {scheduleBlocks.length === 0 ? (
+            <div className="p-8 text-center bg-[#101416] rounded-2xl border border-[rgba(250,243,225,0.1)] text-xs text-[#96928A]">
+              No schedule blocks generated yet. Click "Customize Schedule" to initialize your study calendar.
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {Array.from(new Set(scheduleBlocks.map(b => b.date))).map(dateStr => {
+                const dayBlocks = scheduleBlocks.filter(b => b.date === dateStr);
+                const dayLabel = dayBlocks[0]?.dayLabel || 'Day';
+                return (
+                  <div key={dateStr} className="bg-[#101416] border border-[rgba(250,243,225,0.1)] rounded-[22px] p-5 space-y-3">
+                    <div className="flex items-center justify-between border-b border-[rgba(250,243,225,0.06)] pb-2.5">
+                      <div className="flex items-center gap-2">
+                        <span className="font-display font-bold text-[#FAF3E1] text-sm uppercase">{dayLabel}</span>
+                        <span className="text-xs font-mono text-[#96928A]">{dateStr}</span>
+                      </div>
+                      <span className="text-xs text-[#FF6D1F] font-bold font-mono">
+                        {dayBlocks.filter(b => b.type !== 'break').length} sessions scheduled
+                      </span>
+                    </div>
+
+                    <div className="space-y-2">
+                      {dayBlocks.map(block => (
+                        <div
+                          key={block.id}
+                          className={`p-3.5 rounded-[16px] border flex items-center justify-between text-xs transition ${
+                            block.type === 'break'
+                              ? 'bg-white/5 border-dashed border-white/10 text-[#96928A]'
+                              : block.type === 'project'
+                              ? 'bg-amber-500/10 border-amber-500/20 text-amber-200'
+                              : block.type === 'practice'
+                              ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-200'
+                              : block.type === 'interview'
+                              ? 'bg-purple-500/10 border-purple-500/20 text-purple-200'
+                              : 'bg-[#080B0D] border-[rgba(250,243,225,0.08)] text-[#FAF3E1]'
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="font-mono text-[11px] font-bold text-[#FF6D1F] w-24">
+                              {block.startTime} – {block.endTime}
+                            </span>
+                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase font-mono ${
+                              block.type === 'break'
+                                ? 'bg-white/10 text-[#96928A]'
+                                : 'bg-[#FF6D1F]/20 text-[#FF6D1F]'
+                            }`}>
+                              {block.type}
+                            </span>
+                            <span className="font-medium text-xs">{block.title}</span>
+                          </div>
+
+                          <span className="text-[11px] text-[#96928A] font-mono">
+                            {block.durationMinutes}m
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Tab 3: Weekly Sprint Milestones */}
+      {activeTab === 'milestones' && (
+        <div className="space-y-6 mb-12 animate-in fade-in duration-200">
+          <div className="flex items-center justify-between">
+            <h2 className="font-display text-xl font-bold uppercase text-[#FAF3E1] flex items-center gap-2">
+              <Award className="w-5 h-5 text-[#FF6D1F]" />
+              Weekly Sprint Milestones & Evidence Goals
+            </h2>
+            <span className="text-xs text-[#96928A]">Sprint milestones tailored to hiring benchmarks</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {weeklyMilestones.map(m => (
+              <div key={m.weekNumber} className="bg-[#101416] border border-[rgba(250,243,225,0.12)] rounded-[22px] p-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider font-mono bg-[#FF6D1F]/20 text-[#FF6D1F] border border-[#FF6D1F]/30">
+                    Week {m.weekNumber} Milestone
+                  </span>
+                  <span className="text-xs font-mono font-bold text-[#FAF3E1]/70">
+                    {m.totalPlannedHours} Hours Total
+                  </span>
+                </div>
+
+                <h3 className="font-display text-lg font-bold text-[#FAF3E1]">
+                  {m.milestoneTitle}
+                </h3>
+
+                <div className="space-y-2 text-xs">
+                  <div className="bg-[#080B0D] p-3.5 rounded-[16px] border border-white/5">
+                    <span className="text-[#FF6D1F] font-bold block mb-1">Project Deliverable:</span>
+                    <p className="text-[#FAF3E1]/80 leading-relaxed font-mono">{m.projectDeliverable}</p>
+                  </div>
+
+                  <div className="bg-[#080B0D] p-3.5 rounded-[16px] border border-white/5">
+                    <span className="text-emerald-400 font-bold block mb-1">Assessment / Review Checkpoint:</span>
+                    <p className="text-[#FAF3E1]/80 leading-relaxed">{m.assessmentOrReview}</p>
+                  </div>
+
+                  <div className="bg-[#080B0D] p-3.5 rounded-[16px] border border-white/5">
+                    <span className="text-purple-400 font-bold block mb-1">Expected Proof Evidence:</span>
+                    <p className="text-[#FAF3E1]/80 leading-relaxed">{m.expectedEvidence}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Navigation Footer */}
       <div className="flex justify-between items-center pt-4 border-t border-[rgba(250,243,225,0.12)]">
@@ -456,6 +644,12 @@ ${t.adaptedFromInterview ? `- **Adapted By Interview Performance:** ${t.adaptati
           <span>STEP 05: START TARGETED INTERVIEW PRACTICE →</span>
         </button>
       </div>
+
+      {/* Customizer Modal */}
+      <RoadmapCustomizerModal
+        isOpen={isCustomizerOpen}
+        onClose={() => setIsCustomizerOpen(false)}
+      />
     </div>
   );
 };

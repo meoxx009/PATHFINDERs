@@ -1,4 +1,7 @@
-/**
+import fs from 'fs';
+import path from 'path';
+
+const rolesContent = `/**
  * SkillForge AI — Engineering Roles Catalog
  * Detailed role definitions mapped to branches, specializations, skills, and evidence benchmarks.
  */
@@ -1423,14 +1426,14 @@ export function isBranchAligned(role: CareerRole, userBranch?: string): boolean 
 }
 
 export function getGenericRoleFallback(roleId: string, roleTitle?: string): CareerRole {
-  const title = roleTitle || roleId.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  const title = roleTitle || roleId.replace(/_/g, ' ').replace(/\\b\\w/g, l => l.toUpperCase());
   return {
     id: roleId,
     title,
     slug: roleId.toLowerCase().replace(/[^a-z0-9]/g, '-'),
     domain: 'software_it',
-    summary: `Engineering professional specializing in ${title} principles, systems, and modern workflows.`,
-    description: `The ${title} role focuses on industry engineering delivery, technical problem solving, rigorous verification, and standard compliance across modern engineering teams.`,
+    summary: \`Engineering professional specializing in \${title} principles, systems, and modern workflows.\`,
+    description: \`The \${title} role focuses on industry engineering delivery, technical problem solving, rigorous verification, and standard compliance across modern engineering teams.\`,
     engineeringFamilies: ['General Engineering', 'Applied Technology'],
     streams: ['Technical Delivery'],
     specializations: ['Core Competencies'],
@@ -1443,12 +1446,12 @@ export function getGenericRoleFallback(roleId: string, roleTitle?: string): Care
     requiredSkills: [
       {
         skillId: 'core_discipline',
-        skillName: `${title} Fundamentals`,
+        skillName: \`\${title} Fundamentals\`,
         category: 'foundations',
         importance: 'critical',
         requiredLevel: 4,
-        benchmarkDescription: `Fundamental principles, design standards, and technical methodologies for ${title}.`,
-        evidenceExamples: [`Completed technical project demonstrating ${title} practices`],
+        benchmarkDescription: \`Fundamental principles, design standards, and technical methodologies for \${title}.\`,
+        evidenceExamples: [\`Completed technical project demonstrating \${title} practices\`],
         prerequisites: [],
         suggestedPractice: 'Review core engineering principles and document a hands-on project.'
       },
@@ -1465,7 +1468,7 @@ export function getGenericRoleFallback(roleId: string, roleTitle?: string): Care
       }
     ],
     prerequisiteSkills: ['core_discipline'],
-    commonProjects: [`Applied technical project showcasing ${title} capabilities`],
+    commonProjects: [\`Applied technical project showcasing \${title} capabilities\`],
     commonResponsibilities: [
       'Execute core engineering workflows according to project specifications',
       'Collaborate across multi-disciplinary engineering teams',
@@ -1473,7 +1476,7 @@ export function getGenericRoleFallback(roleId: string, roleTitle?: string): Care
     ],
     tools: ['Standard Engineering Stack', 'Git', 'Excel'],
     interviewTopics: [
-      `Core conceptual foundations of ${title}`,
+      \`Core conceptual foundations of \${title}\`,
       'Problem solving methodology and troubleshooting engineering defects'
     ],
     adjacentRoles: ['Systems Engineer', 'Solutions Engineer'],
@@ -1483,13 +1486,7 @@ export function getGenericRoleFallback(roleId: string, roleTitle?: string): Care
     ]
   };
 }
+`;
 
-export const CAREER_ROLES = ROLES_CATALOG;
-
-export function getRoleById(roleId: string): CareerRole {
-  return ROLES_CATALOG[roleId] || getGenericRoleFallback(roleId);
-}
-
-export function getAllRoles(): CareerRole[] {
-  return Object.values(ROLES_CATALOG);
-}
+fs.writeFileSync(path.resolve(process.cwd(), 'src/data/roles.ts'), rolesContent, 'utf-8');
+console.log('Successfully written src/data/roles.ts with rich CareerRole catalog!');

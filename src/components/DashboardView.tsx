@@ -31,10 +31,16 @@ export const DashboardView: React.FC = () => {
           </p>
           <div className="flex flex-col gap-3">
             <button
-              onClick={() => setCurrentStep('setup')}
+              onClick={() => setCurrentStep('roles')}
               className="w-full py-3.5 rounded-[22px] bg-[#FF6D1F] hover:bg-[#ff7e36] text-[#222222] font-black text-xs uppercase tracking-wider font-display"
             >
-              START CAREER SETUP →
+              EXPLORE ENGINEERING ROLES →
+            </button>
+            <button
+              onClick={() => setCurrentStep('setup')}
+              className="w-full py-3 rounded-[20px] bg-[#101416] hover:bg-[#1a2024] text-[#FAF3E1] border border-[rgba(250,243,225,0.18)] text-xs font-semibold"
+            >
+              CUSTOMIZE TARGET ROLE & RESUME
             </button>
             <button
               onClick={() => loadDemoScenario('prd_frontend_beginner')}
@@ -74,12 +80,21 @@ export const DashboardView: React.FC = () => {
           </p>
         </div>
 
-        <button
-          onClick={() => setCurrentStep('path')}
-          className="px-6 py-3.5 rounded-[22px] bg-[#FF6D1F] hover:bg-[#ff7e36] text-[#222222] font-black text-xs uppercase tracking-wider transition flex items-center gap-2 cursor-pointer self-start sm:self-center font-display shadow-lg shadow-[#FF6D1F]/20"
-        >
-          <span>OPEN MY ROADMAP →</span>
-        </button>
+        <div className="flex items-center gap-3 self-start sm:self-center">
+          <button
+            onClick={() => setCurrentStep('roles')}
+            className="px-5 py-3.5 rounded-[22px] bg-[#101416] hover:bg-[#1a2024] text-[#FAF3E1] border border-[rgba(250,243,225,0.2)] font-bold text-xs uppercase tracking-wider transition flex items-center gap-2 cursor-pointer font-display"
+          >
+            <span>EXPLORE ROLES</span>
+          </button>
+
+          <button
+            onClick={() => setCurrentStep('path')}
+            className="px-6 py-3.5 rounded-[22px] bg-[#FF6D1F] hover:bg-[#ff7e36] text-[#222222] font-black text-xs uppercase tracking-wider transition flex items-center gap-2 cursor-pointer font-display shadow-lg shadow-[#FF6D1F]/20"
+          >
+            <span>OPEN MY ROADMAP →</span>
+          </button>
+        </div>
       </div>
 
       {/* Main Stats Row */}
