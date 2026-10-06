@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 420" width="1440" height="420">
+  <defs>
+    <!-- Background Gradients -->
+    <radialGradient id="topGlow" cx="50%" cy="0%" r="60%">
+      <stop offset="0%" stop-color="#FF6D1F" stop-opacity="0.28" />
+      <stop offset="60%" stop-color="#FF6D1F" stop-opacity="0.04" />
+      <stop offset="100%" stop-color="#080B0D" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="bottomCreamGlow" cx="85%" cy="100%" r="50%">
+      <stop offset="0%" stop-color="#FAF3E1" stop-opacity="0.14" />
+      <stop offset="70%" stop-color="#080B0D" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14191C" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#0B0E10" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="accentLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF6D1F" stop-opacity="0" />
+      <stop offset="50%" stop-color="#FF6D1F" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#FF6D1F" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Deep Luxury Background -->
+  <rect width="1440" height="420" fill="#080B0D" />
+
+  <!-- Ambient Glows -->
+  <rect width="1440" height="420" fill="url(#topGlow)" />
+  <rect width="1440" height="420" fill="url(#bottomCreamGlow)" />
+
+  <!-- Subtle Top Accent Line -->
+  <line x1="120" y1="2" x2="1320" y2="2" stroke="url(#accentLine)" stroke-width="2" />
+
+  <!-- Header / Badge -->
+  <g transform="translate(100, 54)">
+    <rect width="250" height="30" rx="15" fill="#14191C" stroke="#FF6D1F" stroke-opacity="0.4" stroke-width="1" />
+    <circle cx="16" cy="15" r="4" fill="#FF6D1F" />
+    <text x="28" y="19.5" fill="#FAF3E1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="1.5">ENGINEERING CAREER PLATFORM</text>
+  </g>
+
+  <!-- Main Wordmark -->
+  <text x="100" y="160" fill="#FAF3E1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Impact', sans-serif" font-size="74" font-weight="900" letter-spacing="-1.5">
+    SkillForge <tspan fill="#FF6D1F">AI</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <text x="102" y="210" fill="#F5E7C6" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="600" letter-spacing="-0.3">
+    Build the skills your next role actually needs.
+  </text>
+
+  <!-- Supporting Subtitle -->
+  <text x="102" y="248" fill="#96928A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400">
+    Resume intelligence · Multi-signal competency benchmarks · Personalized roadmaps · Adaptive interview practice
+  </text>
+
+  <!-- Feature Cards / Workflow Pipeline on Right Side -->
+  <g transform="translate(100, 290)">
+    <!-- Stage 1 -->
+    <g transform="translate(0, 0)">
+      <rect width="180" height="72" rx="16" fill="url(#cardGrad)" stroke="#FAF3E1" stroke-opacity="0.12" stroke-width="1" />
+      <text x="16" y="28" fill="#FF6D1F" font-family="monospace" font-size="10" font-weight="700" letter-spacing="1">STEP 01</text>
+      <text x="16" y="48" fill="#FAF3E1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700">Engineering Profile</text>
+      <text x="16" y="62" fill="#96928A" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10">Branch &amp; Specialization</text>
+    </g>
+
+    <!-- Connector Arrow -->
+    <path d="M 192 36 L 208 36" stroke="#FAF3E1" stroke-opacity="0.25" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Stage 2 -->
+    <g transform="translate(220, 0)">
+      <rect width="180" height="72" rx="16" fill="url(#cardGrad)" stroke="#FAF3E1" stroke-opacity="0.12" stroke-width="1" />
+      <text x="16" y="28" fill="#FF6D1F" font-family="monospace" font-size="10" font-weight="700" letter-spacing="1">STEP 02</text>
+      <text x="16" y="48" fill="#FAF3E1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700">Resume Evidence</text>
+      <text x="16" y="62" fill="#96928A" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10">Verbatim Code Proof</text>
+    </g>
+
+    <!-- Connector Arrow -->
+    <path d="M 412 36 L 428 36" stroke="#FAF3E1" stroke-opacity="0.25" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Stage 3 -->
+    <g transform="translate(440, 0)">
+      <rect width="180" height="72" rx="16" fill="url(#cardGrad)" stroke="#FAF3E1" stroke-opacity="0.12" stroke-width="1" />
+      <text x="16" y="28" fill="#FF6D1F" font-family="monospace" font-size="10" font-weight="700" letter-spacing="1">STEP 03</text>
+      <text x="16" y="48" fill="#FAF3E1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700">Skill Benchmarks</text>
+      <text x="16" y="62" fill="#96928A" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10">5-Signal Competency</text>
+    </g>
+
+    <!-- Connector Arrow -->
+    <path d="M 632 36 L 648 36" stroke="#FAF3E1" stroke-opacity="0.25" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Stage 4 -->
+    <g transform="translate(660, 0)">
+      <rect width="180" height="72" rx="16" fill="url(#cardGrad)" stroke="#FAF3E1" stroke-opacity="0.12" stroke-width="1" />
+      <text x="16" y="28" fill="#FF6D1F" font-family="monospace" font-size="10" font-weight="700" letter-spacing="1">STEP 04</text>
+      <text x="16" y="48" fill="#FAF3E1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700">Sprint Roadmap</text>
+      <text x="16" y="62" fill="#96928A" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10">Time-Budgeted Tasks</text>
+    </g>
+
+    <!-- Connector Arrow -->
+    <path d="M 852 36 L 868 36" stroke="#FAF3E1" stroke-opacity="0.25" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Stage 5 -->
+    <g transform="translate(880, 0)">
+      <rect width="190" height="72" rx="16" fill="url(#cardGrad)" stroke="#FF6D1F" stroke-opacity="0.5" stroke-width="1" />
+      <text x="16" y="28" fill="#FF6D1F" font-family="monospace" font-size="10" font-weight="700" letter-spacing="1">STEP 05</text>
+      <text x="16" y="48" fill="#FAF3E1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700">Interview Coach</text>
+      <text x="16" y="62" fill="#B8D88A" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10">Adaptive Path Shift</text>
+    </g>
+  </g>
+
+  <!-- Subtle Bottom Border -->
+  <line x1="0" y1="419" x2="1440" y2="419" stroke="#FAF3E1" stroke-opacity="0.08" stroke-width="1" />
+</svg>

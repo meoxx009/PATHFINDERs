@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 240" width="1200" height="240">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080B0D" />
+      <stop offset="100%" stop-color="#101416" />
+    </linearGradient>
+    <linearGradient id="cardFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#14191C" />
+      <stop offset="100%" stop-color="#0B0E10" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <rect width="1200" height="240" rx="20" fill="url(#bgGrad)" stroke="#FAF3E1" stroke-opacity="0.12" stroke-width="1" />
+
+  <!-- Section Title -->
+  <text x="40" y="38" fill="#FF6D1F" font-family="monospace" font-size="11" font-weight="700" letter-spacing="1.5">SKILLFORGE AI CLOSED-LOOP ARCHITECTURE</text>
+  <text x="40" y="60" fill="#FAF3E1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="800">
+    The Continuous Career Feedback Engine
+  </text>
+
+  <!-- 6 Step Pipeline -->
+  <g transform="translate(30, 90)">
+    <!-- Node 1: Profile -->
+    <g transform="translate(0, 0)">
+      <rect width="160" height="110" rx="14" fill="url(#cardFill)" stroke="#FAF3E1" stroke-opacity="0.1" stroke-width="1" />
+      <circle cx="28" cy="28" r="12" fill="#FF6D1F" fill-opacity="0.15" />
+      <text x="28" y="32" fill="#FF6D1F" font-family="monospace" font-size="11" font-weight="800" text-anchor="middle">1</text>
+      <text x="16" y="62" fill="#FAF3E1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700">Engineering Profile</text>
+      <text x="16" y="80" fill="#96928A" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">Branch &amp; Specialization</text>
+      <text x="16" y="96" fill="#58A6FF" font-family="monospace" font-size="9">30+ Engineering Families</text>
+    </g>
+
+    <path d="M 166 55 L 184 55" stroke="#FF6D1F" stroke-opacity="0.4" stroke-width="2" stroke-dasharray="3 3" />
+
+    <!-- Node 2: Target Role -->
+    <g transform="translate(190, 0)">
+      <rect width="160" height="110" rx="14" fill="url(#cardFill)" stroke="#FAF3E1" stroke-opacity="0.1" stroke-width="1" />
+      <circle cx="28" cy="28" r="12" fill="#FF6D1F" fill-opacity="0.15" />
+      <text x="28" y="32" fill="#FF6D1F" font-family="monospace" font-size="11" font-weight="800" text-anchor="middle">2</text>
+      <text x="16" y="62" fill="#FAF3E1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700">Target Role</text>
+      <text x="16" y="80" fill="#96928A" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">Industry Benchmark</text>
+      <text x="16" y="96" fill="#58A6FF" font-family="monospace" font-size="9">Weighted Criteria</text>
+    </g>
+
+    <path d="M 356 55 L 374 55" stroke="#FF6D1F" stroke-opacity="0.4" stroke-width="2" stroke-dasharray="3 3" />
+
+    <!-- Node 3: Resume Grounding -->
+    <g transform="translate(380, 0)">
+      <rect width="160" height="110" rx="14" fill="url(#cardFill)" stroke="#FAF3E1" stroke-opacity="0.1" stroke-width="1" />
+      <circle cx="28" cy="28" r="12" fill="#FF6D1F" fill-opacity="0.15" />
+      <text x="28" y="32" fill="#FF6D1F" font-family="monospace" font-size="11" font-weight="800" text-anchor="middle">3</text>
+      <text x="16" y="62" fill="#FAF3E1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700">Resume Evidence</text>
+      <text x="16" y="80" fill="#96928A" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">Verbatim Excerpts</text>
+      <text x="16" y="96" fill="#B8D88A" font-family="monospace" font-size="9">7 Evidence States</text>
+    </g>
+
+    <path d="M 546 55 L 564 55" stroke="#FF6D1F" stroke-opacity="0.4" stroke-width="2" stroke-dasharray="3 3" />
+
+    <!-- Node 4: Skill Gaps -->
+    <g transform="translate(570, 0)">
+      <rect width="160" height="110" rx="14" fill="url(#cardFill)" stroke="#FAF3E1" stroke-opacity="0.1" stroke-width="1" />
+      <circle cx="28" cy="28" r="12" fill="#FF6D1F" fill-opacity="0.15" />
+      <text x="28" y="32" fill="#FF6D1F" font-family="monospace" font-size="11" font-weight="800" text-anchor="middle">4</text>
+      <text x="16" y="62" fill="#FAF3E1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700">Competency Gap</text>
+      <text x="16" y="80" fill="#96928A" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">5-Signal Algorithm</text>
+      <text x="16" y="96" fill="#F7C65B" font-family="monospace" font-size="9">Normalized Weighting</text>
+    </g>
+
+    <path d="M 736 55 L 754 55" stroke="#FF6D1F" stroke-opacity="0.4" stroke-width="2" stroke-dasharray="3 3" />
+
+    <!-- Node 5: Sprint Roadmap -->
+    <g transform="translate(760, 0)">
+      <rect width="160" height="110" rx="14" fill="url(#cardFill)" stroke="#FAF3E1" stroke-opacity="0.1" stroke-width="1" />
+      <circle cx="28" cy="28" r="12" fill="#FF6D1F" fill-opacity="0.15" />
+      <text x="28" y="32" fill="#FF6D1F" font-family="monospace" font-size="11" font-weight="800" text-anchor="middle">5</text>
+      <text x="16" y="62" fill="#FAF3E1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700">Sprint Roadmap</text>
+      <text x="16" y="80" fill="#96928A" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">7 or 14-Day Tasks</text>
+      <text x="16" y="96" fill="#58A6FF" font-family="monospace" font-size="9">Time-Budgeted Hours</text>
+    </g>
+
+    <path d="M 926 55 L 944 55" stroke="#FF6D1F" stroke-opacity="0.4" stroke-width="2" stroke-dasharray="3 3" />
+
+    <!-- Node 6: Adaptive Interview -->
+    <g transform="translate(950, 0)">
+      <rect width="180" height="110" rx="14" fill="url(#cardFill)" stroke="#FF6D1F" stroke-opacity="0.6" stroke-width="1.5" />
+      <circle cx="28" cy="28" r="12" fill="#FF6D1F" fill-opacity="0.25" />
+      <text x="28" y="32" fill="#FF6D1F" font-family="monospace" font-size="11" font-weight="800" text-anchor="middle">6</text>
+      <text x="16" y="62" fill="#FAF3E1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700">Interview Coach</text>
+      <text x="16" y="80" fill="#96928A" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">STAR Rubric &amp; Feedback</text>
+      <text x="16" y="96" fill="#B8D88A" font-family="monospace" font-size="9">⚡ Adaptive Path Shift</text>
+    </g>
+  </g>
+</svg>
