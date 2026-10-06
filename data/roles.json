@@ -1,0 +1,224 @@
+[
+  {
+    "role": "frontend-developer",
+    "title": "Frontend Developer",
+    "skills": [
+      {
+        "name": "HTML5 & Semantic Markup",
+        "importance": 5,
+        "category": "core_technical",
+        "beginnerEvidence": [
+          "built semantic layouts",
+          "used accessible form tags",
+          "used proper heading hierarchy"
+        ]
+      },
+      {
+        "name": "CSS3, Flexbox & Grid",
+        "importance": 5,
+        "category": "core_technical",
+        "beginnerEvidence": [
+          "created responsive layouts",
+          "used media queries",
+          "used Flexbox or Grid for alignment"
+        ]
+      },
+      {
+        "name": "Modern JavaScript (ES6+)",
+        "importance": 5,
+        "category": "core_technical",
+        "beginnerEvidence": [
+          "built an interactive web page",
+          "used DOM events",
+          "manipulated arrays and objects",
+          "used async/await or promises"
+        ]
+      },
+      {
+        "name": "React & Component Architecture",
+        "importance": 5,
+        "category": "tools_libraries",
+        "beginnerEvidence": [
+          "built a React application",
+          "used components and state",
+          "created custom hooks",
+          "managed modular state"
+        ]
+      },
+      {
+        "name": "API Integration & Async State",
+        "importance": 4,
+        "category": "architecture_concepts",
+        "beginnerEvidence": [
+          "fetched data from REST API",
+          "handled loading and error states",
+          "used axios or fetch"
+        ]
+      },
+      {
+        "name": "Web Performance & Accessibility",
+        "importance": 4,
+        "category": "architecture_concepts",
+        "beginnerEvidence": [
+          "ran Lighthouse audits",
+          "added ARIA labels",
+          "ensured keyboard navigation"
+        ]
+      },
+      {
+        "name": "Version Control & Git",
+        "importance": 4,
+        "category": "tools_libraries",
+        "beginnerEvidence": [
+          "managed commits on GitHub",
+          "created feature branches",
+          "collaborated via pull requests"
+        ]
+      },
+      {
+        "name": "Testing (Vitest / RTL)",
+        "importance": 3,
+        "category": "testing_deployment",
+        "beginnerEvidence": [
+          "wrote component unit tests",
+          "tested user interactions with React Testing Library"
+        ]
+      },
+      {
+        "name": "Build Tools & Deployment",
+        "importance": 3,
+        "category": "testing_deployment",
+        "beginnerEvidence": [
+          "configured Vite or Webpack",
+          "deployed app to Vercel, Netlify, or GitHub Pages"
+        ]
+      }
+    ]
+  },
+  {
+    "role": "data-analyst",
+    "title": "Data Analyst",
+    "skills": [
+      {
+        "name": "SQL & Relational Databases",
+        "importance": 5,
+        "category": "core_technical",
+        "beginnerEvidence": [
+          "wrote multi-table joins",
+          "used GROUP BY aggregations",
+          "used window functions (RANK, ROW_NUMBER)"
+        ]
+      },
+      {
+        "name": "Python for Data Manipulation",
+        "importance": 5,
+        "category": "core_technical",
+        "beginnerEvidence": [
+          "manipulated data with Pandas",
+          "cleaned null and invalid values",
+          "performed exploratory data analysis"
+        ]
+      },
+      {
+        "name": "Data Visualization & BI Dashboards",
+        "importance": 5,
+        "category": "tools_libraries",
+        "beginnerEvidence": [
+          "built interactive Tableau or PowerBI dashboards",
+          "created charts with Matplotlib or Seaborn",
+          "communicated metric trends"
+        ]
+      },
+      {
+        "name": "Statistical Analysis & Testing",
+        "importance": 4,
+        "category": "architecture_concepts",
+        "beginnerEvidence": [
+          "calculated standard deviation and correlation",
+          "performed hypothesis testing or A/B test analysis"
+        ]
+      },
+      {
+        "name": "Data Cleaning & ETL",
+        "importance": 4,
+        "category": "architecture_concepts",
+        "beginnerEvidence": [
+          "parsed dates and transformed columns",
+          "filtered outliers from datasets"
+        ]
+      },
+      {
+        "name": "Business Metric Storytelling",
+        "importance": 4,
+        "category": "soft_skills",
+        "beginnerEvidence": [
+          "presented data findings to non-technical audiences",
+          "translated business KPIs into data models"
+        ]
+      }
+    ]
+  },
+  {
+    "role": "backend-developer",
+    "title": "Backend Developer",
+    "skills": [
+      {
+        "name": "Server-side Language & Runtime",
+        "importance": 5,
+        "category": "core_technical",
+        "beginnerEvidence": [
+          "built backend servers with Node.js, Express, or FastAPI",
+          "handled concurrent requests and async execution"
+        ]
+      },
+      {
+        "name": "RESTful API Design & Routing",
+        "importance": 5,
+        "category": "core_technical",
+        "beginnerEvidence": [
+          "implemented CRUD HTTP endpoints",
+          "applied request payload validation",
+          "followed REST conventions and HTTP status codes"
+        ]
+      },
+      {
+        "name": "Database Schema & Querying",
+        "importance": 5,
+        "category": "core_technical",
+        "beginnerEvidence": [
+          "designed relational or NoSQL schemas",
+          "performed CRUD queries with SQL or ORM",
+          "indexed query lookups"
+        ]
+      },
+      {
+        "name": "Authentication & Security",
+        "importance": 4,
+        "category": "architecture_concepts",
+        "beginnerEvidence": [
+          "implemented JWT authentication",
+          "hashed passwords with bcrypt",
+          "protected routes with auth middleware"
+        ]
+      },
+      {
+        "name": "Error Handling & Logging",
+        "importance": 4,
+        "category": "architecture_concepts",
+        "beginnerEvidence": [
+          "configured centralized error handling middleware",
+          "implemented structured loggers"
+        ]
+      },
+      {
+        "name": "Testing & Containerization",
+        "importance": 3,
+        "category": "testing_deployment",
+        "beginnerEvidence": [
+          "wrote integration tests with Supertest or Pytest",
+          "containerized applications with Docker"
+        ]
+      }
+    ]
+  }
+]
