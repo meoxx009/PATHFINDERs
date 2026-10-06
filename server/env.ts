@@ -45,8 +45,8 @@ export function loadEnvConfig(): ServerEnvConfig {
         ? 'openai_compatible'
         : 'demo';
 
-  const aiModel = process.env.AI_MODEL || '';
-  const googleApiKey = process.env.GOOGLE_API_KEY || '';
+  const aiModel = process.env.AI_MODEL || 'gemini-flash-latest';
+  const googleApiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY || process.env.GEMMA_API_KEY || '';
   const aiBaseUrl = process.env.AI_BASE_URL || '';
   const aiApiKey = process.env.AI_API_KEY || '';
 

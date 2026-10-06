@@ -22,8 +22,8 @@ export function getAIProvider(): AIProvider {
 
   // 1. Google Gemini Provider
   if (providerType === 'google_gemini') {
-    const googleKey = env.GOOGLE_API_KEY || '';
-    const model = env.AI_MODEL || '';
+    const googleKey = env.GOOGLE_API_KEY || env.GEMINI_API_KEY || '';
+    const model = env.AI_MODEL || 'gemini-flash-latest';
 
     const isValidKey = Boolean(
       googleKey &&

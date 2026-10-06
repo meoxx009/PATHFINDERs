@@ -51,56 +51,67 @@ export class GeminiProvider implements AIProvider {
     validator: (data: unknown) => { success: true; data: T } | { success: false; error: any },
     fallbackFn: () => Promise<T>
   ): Promise<T> {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(this.model)}:generateContent?key=${encodeURIComponent(this.apiKey)}`;
+    const modelsToTry = [this.model, 'gemini-flash-latest', 'gemini-1.5-flash'].filter(
+      (m, idx, arr) => m && arr.indexOf(m) === idx
+    );
 
-    for (let attempt = 1; attempt <= 2; attempt++) {
-      try {
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [
-              {
-                role: 'user',
-                parts: [
-                  {
-                    text: `${systemInstruction}\n\n${userPrompt}\n\nIMPORTANT: Return ONLY a valid JSON object strictly matching the expected schema. Do not include markdown commentary or preamble outside the JSON object.`,
-                  },
-                ],
+    for (const modelCandidate of modelsToTry) {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelCandidate)}:generateContent?key=${encodeURIComponent(this.apiKey)}`;
+
+      for (let attempt = 1; attempt <= 2; attempt++) {
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [
+                {
+                  role: 'user',
+                  parts: [
+                    {
+                      text: `${systemInstruction}\n\n${userPrompt}\n\nIMPORTANT: Return ONLY a valid JSON object strictly matching the expected schema. Do not include markdown commentary or preamble outside the JSON object.`,
+                    },
+                  ],
+                },
+              ],
+              generationConfig: {
+                responseMimeType: 'application/json',
+                temperature: 0.2,
               },
-            ],
-            generationConfig: {
-              responseMimeType: 'application/json',
-              temperature: 0.2,
-            },
-          }),
-        });
+            }),
+          });
 
-        if (!response.ok) {
-          const errText = await response.text();
-          throw new Error(`Gemini API HTTP ${response.status}: ${errText.substring(0, 150)}`);
+          if (!response.ok) {
+            const errText = await response.text();
+            if (response.status === 404 || response.status === 503) {
+              console.warn(`[GeminiProvider] Model ${modelCandidate} returned HTTP ${response.status}, attempting fallback model.`);
+              break;
+            }
+            throw new Error(`Gemini API HTTP ${response.status}: ${errText.substring(0, 150)}`);
+          }
+
+          const json = await response.json();
+          const rawContent = json?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+          if (!rawContent) {
+            throw new Error('Gemini returned an empty candidate text part');
+          }
+
+          const cleaned = this.cleanJsonString(rawContent);
+          const parsed = JSON.parse(cleaned);
+
+          const validation = validator(parsed);
+          if (validation.success) {
+            return validation.data;
+          } else {
+            console.warn(`[GeminiProvider] Attempt ${attempt} failed schema validation:`, validation.error?.message || validation.error);
+          }
+        } catch (err: any) {
+          console.warn(`[GeminiProvider] Encountered error on ${modelCandidate}:`, err?.message || err);
         }
-
-        const json = await response.json();
-        const rawContent = json?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-        if (!rawContent) {
-          throw new Error('Gemini returned an empty candidate text part');
-        }
-
-        const cleaned = this.cleanJsonString(rawContent);
-        const parsed = JSON.parse(cleaned);
-
-        const validation = validator(parsed);
-        if (validation.success) {
-          return validation.data;
-        } else {
-          console.warn(`[GeminiProvider] Attempt ${attempt} failed schema validation:`, validation.error?.message || validation.error);
-        }
-      } catch (err: any) {
-        console.warn(`[GeminiProvider] Attempt ${attempt} encountered error:`, err?.message || err);
       }
     }
+
 
     console.warn('[GeminiProvider] Retries exhausted. Gracefully engaging deterministic fallback.');
     return fallbackFn();
