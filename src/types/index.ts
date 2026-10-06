@@ -72,6 +72,65 @@ export interface SkillEvidence {
   importance: 'critical' | 'high' | 'medium';
 }
 
+export type EvidenceClassificationType =
+  | 'academic_project'
+  | 'personal_project'
+  | 'internship'
+  | 'lab_coursework'
+  | 'competition'
+  | 'certification'
+  | 'publication'
+  | 'claimed_only'
+  | 'not_observed';
+
+export interface CandidateSummary {
+  engineeringBranch: string;
+  specialization?: string;
+  currentLevel: 'student' | 'intern' | 'entry_level' | 'early_career';
+  mainTechnicalDirection: string;
+  targetRoleAlignment: string;
+  missingContext: string[];
+}
+
+export interface SkillEvidenceMapItem {
+  skillName: string;
+  evidenceType: EvidenceClassificationType;
+  exactExcerpt?: string; // verbatim quote
+  source: string; // e.g. "Project: E-Commerce Platform"
+  evidenceStrength: 'strong' | 'moderate' | 'weak' | 'not_observed';
+  confidence: 'High confidence' | 'Medium confidence' | 'Needs validation';
+  recommendation: string;
+}
+
+export interface ProjectAnalysisItem {
+  name: string;
+  problemSolved: string;
+  userOrIndustrialContext: string;
+  technicalApproach: string;
+  toolsUsed: string[];
+  candidateContribution: string;
+  measurableResult?: string;
+  missingTechnicalDepth: string;
+  suggestedInterviewQuestions: string[];
+}
+
+export interface RoleAlignmentItem {
+  targetRoleId: string;
+  targetRoleTitle: string;
+  strongMatches: Array<{ skill: string; evidence: string }>;
+  partialMatches: Array<{ skill: string; gap: string }>;
+  missingRequirements: Array<{ skill: string; reason: string }>;
+  nonRelevantItems: string[];
+  resumeOrderingSuggestions: string[];
+}
+
+export interface ResumeImprovementItem {
+  category: 'measurable_outcome' | 'personal_contribution' | 'technical_decisions' | 'testing_validation' | 'deployment_manufacturing' | 'tools_links' | 'section_ordering';
+  title: string;
+  suggestion: string;
+  affectedSection?: string;
+}
+
 export interface ExtractedResume {
   rawText: string;
   candidateName?: string;
@@ -98,6 +157,17 @@ export interface ExtractedResume {
   weakEvidenceAreas: string[];
   missingCriticalInfo: string[];
   truthfulSuggestions: string[];
+
+  // Professional Engineering Analyzer Output (Prompt 5)
+  candidateSummary?: CandidateSummary;
+  evidenceMap?: SkillEvidenceMapItem[];
+  projectAnalyses?: ProjectAnalysisItem[];
+  roleAlignment?: RoleAlignmentItem;
+  resumeImprovements?: ResumeImprovementItem[];
+  detectedLinks?: { github?: string[]; portfolio?: string[]; linkedin?: string[] };
+  quantifiedMetrics?: string[];
+  standardsAndCompliance?: string[];
+  analysisVersion?: string;
 }
 
 export interface RoleTaxonomy {
